@@ -13,4 +13,9 @@ public class SectionService {
         this.sectionRepository = sectionRepository;
     }
 
+    public Section findById(String sectionId){
+        return this.sectionRepository.findById(sectionId)
+                .orElseThrow(() -> new SectionNotFoundException(sectionId));
+    }
+
 }
