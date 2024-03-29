@@ -37,16 +37,14 @@ class SectionServiceTest {
     }
 
     @Test
-    void testFindByIdSuccess() {
+    void testFindByNameSuccess() {
         // Given. Arrange inputs and targets. Define the behavior of Mock object sectionRepository.
         /*
-        	“id”: “1029384756473829109”,
 		    “name”: “Senior Section 2023-2024”,
 		    “year”: “2023-2024”,
          */
         Section sec = new Section();
-        sec.setId("1029384756473829109");
-        sec.setName("Senior Section 2023-2024");
+        sec.setId("Section 2023-2024");
         sec.setYear("2023-2024");
 
         Admin adm = new Admin();
@@ -55,34 +53,33 @@ class SectionServiceTest {
 
         sec.setOverseer(adm);
 
-        given(sectionRepository.findById("1029384756473829109")).willReturn(Optional.of(sec)); // Defines the behavior of the mock object.
+        given(sectionRepository.findById("Section 2023-2024")).willReturn(Optional.of(sec)); // Defines the behavior of the mock object.
 
         // When. Act on the target behavior. When steps should cover the method to be tested.
-        Section returnedSection = sectionService.findById("1029384756473829109");
+        Section returnedSection = sectionService.findById("Section 2023-2024");
 
         // Then. Assert expected outcomes.
         assertThat(returnedSection.getId()).isEqualTo(sec.getId());
-        assertThat(returnedSection.getName()).isEqualTo(sec.getName());
         assertThat(returnedSection.getYear()).isEqualTo(sec.getYear());
-        verify(sectionRepository, times(1)).findById("1029384756473829109");
+        verify(sectionRepository, times(1)).findById("Section 2023-2024");
 
     }
 
     @Test
-    void testFindByIdNotFound(){
+    void testFindByNameNotFound(){
         // Given.
         given(sectionRepository.findById(Mockito.any(String.class))).willReturn(Optional.empty());
 
         // When.
         Throwable thrown = catchThrowable(()->{
-            Section returnedSection = sectionService.findById("1029384756473829109");
+            Section returnedSection = sectionService.findById("Section 2023-2024");
         });
 
         // Then.
         assertThat(thrown)
                 .isInstanceOf(SectionNotFoundException.class)
-                .hasMessage("Could not find section with Id 1029384756473829109 :(");
-        verify(sectionRepository, times(1)).findById("1029384756473829109");
+                .hasMessage("Could not find section with name Section 2023-2024 :(");
+        verify(sectionRepository, times(1)).findById("Section 2023-2024");
 
     }
 }

@@ -12,9 +12,7 @@ import java.util.List;
 public class Section implements Serializable {
 
     @Id
-    private String id;
-
-    private String name;
+    private String id; // The section name is the ID!!!
 
 //    private List<String> activeWeeks;
 
@@ -32,14 +30,6 @@ public class Section implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 //    public ArrayList<String> getActiveWeeks() {
