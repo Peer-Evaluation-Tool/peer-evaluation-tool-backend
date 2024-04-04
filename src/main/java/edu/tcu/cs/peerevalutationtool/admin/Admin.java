@@ -48,6 +48,10 @@ public class Admin implements Serializable {
         this.sections = sections;
     }
 
+    public Integer getNumberOfSections(){
+        return this.sections.size();
+    }
+
     public void addSection(Section section) {
 
         section.setOverseer(this);
