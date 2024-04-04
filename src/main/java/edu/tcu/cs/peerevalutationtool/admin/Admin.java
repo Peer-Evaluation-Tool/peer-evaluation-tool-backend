@@ -7,27 +7,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Admin implements Serializable {
 
     @Id
-    private String id;
+    private Integer id;
 
     private String name;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "overseer")
-    private List<Section> sections;
+    private List<Section> sections = new ArrayList<>();
 
     public Admin() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,4 +48,10 @@ public class Admin implements Serializable {
         this.sections = sections;
     }
 
+    public void addSection(Section section) {
+
+        section.setOverseer(this);
+        this.sections.add(section);
+
+    }
 }
