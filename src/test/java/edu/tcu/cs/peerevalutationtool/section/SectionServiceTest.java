@@ -48,7 +48,7 @@ class SectionServiceTest {
         sec.setYear("2023-2024");
 
         Admin adm = new Admin();
-        adm.setId("2");
+        adm.setId(1);
         adm.setName("Bingyang Wei");
 
         sec.setOverseer(adm);

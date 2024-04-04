@@ -1,6 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.section;
 
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -16,7 +17,8 @@ public class Section implements Serializable {
 
 //    private List<String> activeWeeks;
 
-    private String year;
+//    @Column(name = "year")
+    private String yearr;
 
     @ManyToOne
     private Admin overseer;
@@ -41,11 +43,11 @@ public class Section implements Serializable {
 //    }
 
     public String getYear() {
-        return year;
+        return yearr;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setYear(String yearr) {
+        this.yearr = yearr;
     }
 
     public Admin getOverseer() {
