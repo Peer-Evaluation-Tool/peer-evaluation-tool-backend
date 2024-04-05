@@ -23,4 +23,8 @@ public class SectionService {
                 .orElseThrow(() -> new SectionNotFoundByYearrException(sectionYear));
     }
 
+    public Section findByIdAndYearr(String sectionId, String sectionYear) {
+        return this.sectionRepository.findByIdAndYearr(sectionId, sectionYear)
+                .orElseThrow(() -> new SectionNotFoundByIdAndYearrException(sectionId, sectionYear));
+    }
 }
