@@ -18,4 +18,9 @@ public class SectionService {
                 .orElseThrow(() -> new SectionNotFoundException(sectionId));
     }
 
+    public Section findByYearr(String sectionYear){
+        return this.sectionRepository.findByYearr(sectionYear)
+                .orElseThrow(() -> new SectionNotFoundByYearrException(sectionYear));
+    }
+
 }
