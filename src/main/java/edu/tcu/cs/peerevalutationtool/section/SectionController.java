@@ -27,4 +27,11 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
 
+    @GetMapping("/api/v1/sections/yr/{sectionYear}")
+    public Result findSectionByYearr(@PathVariable String sectionYear){
+        Section foundSection = this.sectionService.findByYearr(sectionYear);
+        SectionDto sectionDto = this.sectionToSectionDtoConverter.convert(foundSection);
+        return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
+    }
+
 }
