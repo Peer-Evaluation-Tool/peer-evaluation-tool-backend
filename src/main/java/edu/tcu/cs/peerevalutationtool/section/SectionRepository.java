@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface SectionRepository extends JpaRepository<Section, String> {
     Optional<Section> findByYearr(String sectionYear);
+
+    Optional<Section> findByIdAndYearr(String sectionId, String sectionYear);
 }
