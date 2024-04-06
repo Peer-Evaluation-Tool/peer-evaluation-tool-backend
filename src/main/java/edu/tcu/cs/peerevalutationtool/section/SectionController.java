@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @RestController
 public class SectionController {
 
@@ -39,6 +43,26 @@ public class SectionController {
         Section foundSection = this.sectionService.findByIdAndYearr(sectionId, sectionYear);
         SectionDto sectionDto = this.sectionToSectionDtoConverter.convert(foundSection);
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
+    }
+
+    @GetMapping("/api/v1/sections")
+    public Result findAllSections(){
+        List<Section> foundSections = this.sectionService.findAll();
+        // Convert foundSections to a list of sectionDtos
+        List<SectionDto> sectionDtos = foundSections.stream()
+                .map(foundSection -> this.sectionToSectionDtoConverter.convert(foundSection))
+                .collect(Collectors.toList());
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", sectionDtos);
+    }
+
+    @GetMapping("/api/v1/sections/allbyyear/{sectionName}")
+    public Result findAllByYearr(@PathVariable String sectionName){
+        List<Section> foundSections = this.sectionService.findAllByYearr(sectionName);
+        // Convert foundSections to a list of sectionDtos
+        List<SectionDto> sectionDtos = foundSections.stream()
+                .map(foundSection -> this.sectionToSectionDtoConverter.convert(foundSection))
+                .collect(Collectors.toList());
+        return new Result(true, StatusCode.SUCCESS, "Find All By Year Success", sectionDtos);
     }
 
 }
