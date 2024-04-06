@@ -50,6 +50,10 @@ public class DBDataInitializer implements CommandLineRunner {
         sec7.setId("Section 2023-2024");
         sec7.setYear("2023-2024");
 
+        Section sec8 = new Section();
+        sec8.setId("Section 2023-2024-02");
+        sec8.setYear("2023-2024");
+
         Admin adm1 = new Admin();
         adm1.setId(1);
         adm1.setName("Bingyang Wei");
@@ -59,6 +63,7 @@ public class DBDataInitializer implements CommandLineRunner {
         adm1.addSection(sec5);
         adm1.addSection(sec6);
         adm1.addSection(sec7);
+        adm1.addSection(sec8);
 
         adminRepository.save(adm1);
 

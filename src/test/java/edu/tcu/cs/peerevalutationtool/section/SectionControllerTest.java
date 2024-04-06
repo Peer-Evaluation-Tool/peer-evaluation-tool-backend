@@ -1,6 +1,8 @@
 package edu.tcu.cs.peerevalutationtool.section;
 
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,6 +72,11 @@ class SectionControllerTest {
         sec7.setId("Section 2023-2024");
         sec7.setYear("2023-2024");
         this.sections.add(sec7);
+
+        Section sec8 = new Section();
+        sec8.setId("Section 2023-2024-2");
+        sec8.setYear("2023-2024");
+        this.sections.add(sec8);
     }
 
     @AfterEach
@@ -157,6 +164,44 @@ class SectionControllerTest {
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
                 .andExpect(jsonPath("$.message").value("Could not find section with Id Section 2023-2024 and year 2023-2024 :("))
                 .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    void testFindAllSectionsSuccess() throws Exception {
+        // Given
+        given(this.sectionService.findAll()).willReturn(this.sections);
+
+        // When and Then
+        this.mockMvc.perform(get("/api/v1/sections").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Find All Success"))
+                .andExpect(jsonPath("$.data").value(Matchers.hasSize(this.sections.size())))
+                .andExpect(jsonPath("$.data[0].id").value("Section 2017-2018"))
+                .andExpect(jsonPath("$.data[0].yearr").value("2017-2018"))
+                .andExpect(jsonPath("$.data[1].id").value("Section 2018-2019"))
+                .andExpect(jsonPath("$.data[1].yearr").value("2018-2019"));
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    void testFindAllSectionsByYearrSuccess() throws Exception {
+        // Given
+        given(this.sectionService.findAllByYearr("2023-2024")).willReturn(this.sections.subList(6,8));
+
+        // When and Then
+        this.mockMvc.perform(get("/api/v1/sections/allbyyear/2023-2024").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Find All By Year Success"))
+                .andExpect(jsonPath("$.data").value(Matchers.hasSize(2)))
+                .andExpect(jsonPath("$.data[0].id").value("Section 2023-2024"))
+                .andExpect(jsonPath("$.data[0].yearr").value("2023-2024"))
+                .andExpect(jsonPath("$.data[1].id").value("Section 2023-2024-2"))
+                .andExpect(jsonPath("$.data[1].yearr").value("2023-2024"));
     }
 
 }
