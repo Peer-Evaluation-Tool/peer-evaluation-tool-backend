@@ -112,22 +112,22 @@ class SectionControllerTest {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    void testFindSectionByYearrSuccess() throws Exception {
+    void testFindSectionByYearSuccess() throws Exception {
         // Given
-        given(this.sectionService.findByYearr("2023-2024")).willReturn(this.sections.get(6));
+        given(this.sectionService.findByYear("2023-2024")).willReturn(this.sections.get(6));
 
         // When and then
         this.mockMvc.perform(get("/api/v1/sections/yr/2023-2024").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find One Success"))
-                .andExpect(jsonPath("$.data.yearr").value("2023-2024"));
+                .andExpect(jsonPath("$.data.year").value("2023-2024"));
     }
 
     @Test
-    void testFindSectionByYearrNotFound() throws Exception {
+    void testFindSectionByYearNotFound() throws Exception {
         // Given
-        given(this.sectionService.findByYearr("2023-2024")).willThrow(new SectionNotFoundByYearrException("2023-2024"));
+        given(this.sectionService.findByYear("2023-2024")).willThrow(new SectionNotFoundByYearException("2023-2024"));
 
         // When and then
         this.mockMvc.perform(get("/api/v1/sections/yr/2023-2024").accept(MediaType.APPLICATION_JSON))
@@ -140,9 +140,9 @@ class SectionControllerTest {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    void testFindSectionByIdAndYearrSuccess() throws Exception {
+    void testFindSectionByIdAndYearSuccess() throws Exception {
         // Given
-        given(this.sectionService.findByIdAndYearr("Section 2023-2024", "2023-2024")).willReturn(this.sections.get(6));
+        given(this.sectionService.findByIdAndYear("Section 2023-2024", "2023-2024")).willReturn(this.sections.get(6));
 
         // When and then
         this.mockMvc.perform(get("/api/v1/sections/secyr/Section 2023-2024+2023-2024").accept(MediaType.APPLICATION_JSON))
@@ -150,13 +150,13 @@ class SectionControllerTest {
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find One Success"))
                 .andExpect(jsonPath("$.data.id").value("Section 2023-2024"))
-                .andExpect(jsonPath("$.data.yearr").value("2023-2024"));
+                .andExpect(jsonPath("$.data.year").value("2023-2024"));
     }
 
     @Test
-    void testFindSectionByIdAndYearrNotFound() throws Exception {
+    void testFindSectionByIdAndYearNotFound() throws Exception {
         // Given
-        given(this.sectionService.findByIdAndYearr("Section 2023-2024","2023-2024")).willThrow(new SectionNotFoundByIdAndYearrException("Section 2023-2024","2023-2024"));
+        given(this.sectionService.findByIdAndYear("Section 2023-2024","2023-2024")).willThrow(new SectionNotFoundByIdAndYearException("Section 2023-2024","2023-2024"));
 
         // When and then
         this.mockMvc.perform(get("/api/v1/sections/secyr/Section 2023-2024+2023-2024").accept(MediaType.APPLICATION_JSON))
@@ -180,17 +180,17 @@ class SectionControllerTest {
                 .andExpect(jsonPath("$.message").value("Find All Success"))
                 .andExpect(jsonPath("$.data").value(Matchers.hasSize(this.sections.size())))
                 .andExpect(jsonPath("$.data[0].id").value("Section 2017-2018"))
-                .andExpect(jsonPath("$.data[0].yearr").value("2017-2018"))
+                .andExpect(jsonPath("$.data[0].year").value("2017-2018"))
                 .andExpect(jsonPath("$.data[1].id").value("Section 2018-2019"))
-                .andExpect(jsonPath("$.data[1].yearr").value("2018-2019"));
+                .andExpect(jsonPath("$.data[1].year").value("2018-2019"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    void testFindAllSectionsByYearrSuccess() throws Exception {
+    void testFindAllSectionsByYearSuccess() throws Exception {
         // Given
-        given(this.sectionService.findAllByYearr("2023-2024")).willReturn(this.sections.subList(6,8));
+        given(this.sectionService.findAllByYear("2023-2024")).willReturn(this.sections.subList(6,8));
 
         // When and Then
         this.mockMvc.perform(get("/api/v1/sections/allbyyear/2023-2024").accept(MediaType.APPLICATION_JSON))
@@ -199,9 +199,9 @@ class SectionControllerTest {
                 .andExpect(jsonPath("$.message").value("Find All By Year Success"))
                 .andExpect(jsonPath("$.data").value(Matchers.hasSize(2)))
                 .andExpect(jsonPath("$.data[0].id").value("Section 2023-2024"))
-                .andExpect(jsonPath("$.data[0].yearr").value("2023-2024"))
+                .andExpect(jsonPath("$.data[0].year").value("2023-2024"))
                 .andExpect(jsonPath("$.data[1].id").value("Section 2023-2024-2"))
-                .andExpect(jsonPath("$.data[1].yearr").value("2023-2024"));
+                .andExpect(jsonPath("$.data[1].year").value("2023-2024"));
     }
 
 }

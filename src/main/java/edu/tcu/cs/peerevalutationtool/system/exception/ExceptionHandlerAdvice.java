@@ -1,7 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.system.exception;
 
-import edu.tcu.cs.peerevalutationtool.section.SectionNotFoundByIdAndYearrException;
-import edu.tcu.cs.peerevalutationtool.section.SectionNotFoundByYearrException;
+import edu.tcu.cs.peerevalutationtool.section.SectionNotFoundByIdAndYearException;
+import edu.tcu.cs.peerevalutationtool.section.SectionNotFoundByYearException;
 import edu.tcu.cs.peerevalutationtool.section.SectionNotFoundException;
 import edu.tcu.cs.peerevalutationtool.system.Result;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
@@ -19,15 +19,15 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(SectionNotFoundByYearrException.class)
+    @ExceptionHandler(SectionNotFoundByYearException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    Result handleSectionNotFoundException(SectionNotFoundByYearrException ex){
+    Result handleSectionNotFoundException(SectionNotFoundByYearException ex){
         return new Result(false, StatusCode.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(SectionNotFoundByIdAndYearrException.class)
+    @ExceptionHandler(SectionNotFoundByIdAndYearException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    Result handleSectionNotFoundException(SectionNotFoundByIdAndYearrException ex){
+    Result handleSectionNotFoundException(SectionNotFoundByIdAndYearException ex){
         return new Result(false, StatusCode.NOT_FOUND, ex.getMessage());
     }
 

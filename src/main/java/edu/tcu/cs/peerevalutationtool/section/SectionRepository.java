@@ -8,9 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface SectionRepository extends JpaRepository<Section, String> {
-    Optional<Section> findByYearr(String sectionYear);
+    Optional<Section> findByYear(String sectionYear);
 
-    Optional<Section> findByIdAndYearr(String sectionId, String sectionYear);
+    Optional<Section> findByIdAndYear(String sectionId, String sectionYear);
 
-    List<Section> findAllByYearr(String sectionYear);
+    List<Section> findAllByYear(String sectionYear);
 }

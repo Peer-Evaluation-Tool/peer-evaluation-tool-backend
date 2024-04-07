@@ -17,8 +17,8 @@ public class Section implements Serializable {
 
 //    private List<String> activeWeeks;
 
-//    @Column(name = "year")
-    private String yearr;
+    @Column(name = "`year`")
+    private String year;
 
     @ManyToOne
     private Admin overseer;
@@ -43,11 +43,11 @@ public class Section implements Serializable {
 //    }
 
     public String getYear() {
-        return yearr;
+        return year;
     }
 
-    public void setYear(String yearr) {
-        this.yearr = yearr;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public Admin getOverseer() {

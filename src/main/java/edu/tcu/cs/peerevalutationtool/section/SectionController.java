@@ -32,15 +32,15 @@ public class SectionController {
     }
 
     @GetMapping("/api/v1/sections/yr/{sectionYear}")
-    public Result findSectionByYearr(@PathVariable String sectionYear){
-        Section foundSection = this.sectionService.findByYearr(sectionYear);
+    public Result findSectionByYear(@PathVariable String sectionYear){
+        Section foundSection = this.sectionService.findByYear(sectionYear);
         SectionDto sectionDto = this.sectionToSectionDtoConverter.convert(foundSection);
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
 
     @GetMapping("/api/v1/sections/secyr/{sectionId}+{sectionYear}")
-    public Result findSectionByIdAndYearr(@PathVariable String sectionId, @PathVariable String sectionYear){
-        Section foundSection = this.sectionService.findByIdAndYearr(sectionId, sectionYear);
+    public Result findSectionByIdAndYear(@PathVariable String sectionId, @PathVariable String sectionYear){
+        Section foundSection = this.sectionService.findByIdAndYear(sectionId, sectionYear);
         SectionDto sectionDto = this.sectionToSectionDtoConverter.convert(foundSection);
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
@@ -56,8 +56,8 @@ public class SectionController {
     }
 
     @GetMapping("/api/v1/sections/allbyyear/{sectionName}")
-    public Result findAllByYearr(@PathVariable String sectionName){
-        List<Section> foundSections = this.sectionService.findAllByYearr(sectionName);
+    public Result findAllByYear(@PathVariable String sectionName){
+        List<Section> foundSections = this.sectionService.findAllByYear(sectionName);
         // Convert foundSections to a list of sectionDtos
         List<SectionDto> sectionDtos = foundSections.stream()
                 .map(foundSection -> this.sectionToSectionDtoConverter.convert(foundSection))

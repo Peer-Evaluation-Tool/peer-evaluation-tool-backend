@@ -117,33 +117,33 @@ class SectionServiceTest {
 
         sec.setOverseer(adm);
 
-        given(sectionRepository.findByYearr("2023-2024")).willReturn(Optional.of(sec)); // Defines the behavior of the mock object.
+        given(sectionRepository.findByYear("2023-2024")).willReturn(Optional.of(sec)); // Defines the behavior of the mock object.
 
         // When. Act on the target behavior. When steps should cover the method to be tested.
-        Section returnedSection = sectionService.findByYearr("2023-2024");
+        Section returnedSection = sectionService.findByYear("2023-2024");
 
         // Then. Assert expected outcomes.
         assertThat(returnedSection.getId()).isEqualTo(sec.getId());
         assertThat(returnedSection.getYear()).isEqualTo(sec.getYear());
-        verify(sectionRepository, times(1)).findByYearr("2023-2024");
+        verify(sectionRepository, times(1)).findByYear("2023-2024");
 
     }
 
     @Test
     void testFindByYearNotFound(){
         // Given.
-        given(sectionRepository.findByYearr(Mockito.any(String.class))).willReturn(Optional.empty());
+        given(sectionRepository.findByYear(Mockito.any(String.class))).willReturn(Optional.empty());
 
         // When.
         Throwable thrown = catchThrowable(()->{
-            Section returnedSection = sectionService.findByYearr("2023-2024");
+            Section returnedSection = sectionService.findByYear("2023-2024");
         });
 
         // Then.
         assertThat(thrown)
-                .isInstanceOf(SectionNotFoundByYearrException.class)
+                .isInstanceOf(SectionNotFoundByYearException.class)
                 .hasMessage("Could not find section with year 2023-2024 :(");
-        verify(sectionRepository, times(1)).findByYearr("2023-2024");
+        verify(sectionRepository, times(1)).findByYear("2023-2024");
     }
 
     @Test
@@ -160,15 +160,15 @@ class SectionServiceTest {
     }
 
     @Test
-    void testFindAllByYearrSuccess(){
+    void testFindAllByYearSuccess(){
         // Given
-        given(sectionRepository.findAllByYearr("2023-2024")).willReturn(this.sections);
+        given(sectionRepository.findAllByYear("2023-2024")).willReturn(this.sections);
 
         // When
-        List<Section> actualSections = sectionService.findAllByYearr("2023-2024");
+        List<Section> actualSections = sectionService.findAllByYear("2023-2024");
 
         // Then
         assertThat(actualSections.size()).isEqualTo(this.sections.size());
-        verify(sectionRepository, times(1)).findAllByYearr("2023-2024");
+        verify(sectionRepository, times(1)).findAllByYear("2023-2024");
     }
 }
