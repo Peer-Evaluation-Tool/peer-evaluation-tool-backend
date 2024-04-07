@@ -21,21 +21,21 @@ public class SectionService {
                 .orElseThrow(() -> new SectionNotFoundException(sectionId));
     }
 
-    public Section findByYearr(String sectionYear){
-        return this.sectionRepository.findByYearr(sectionYear)
-                .orElseThrow(() -> new SectionNotFoundByYearrException(sectionYear));
+    public Section findByYear(String sectionYear){
+        return this.sectionRepository.findByYear(sectionYear)
+                .orElseThrow(() -> new SectionNotFoundByYearException(sectionYear));
     }
 
-    public Section findByIdAndYearr(String sectionId, String sectionYear) {
-        return this.sectionRepository.findByIdAndYearr(sectionId, sectionYear)
-                .orElseThrow(() -> new SectionNotFoundByIdAndYearrException(sectionId, sectionYear));
+    public Section findByIdAndYear(String sectionId, String sectionYear) {
+        return this.sectionRepository.findByIdAndYear(sectionId, sectionYear)
+                .orElseThrow(() -> new SectionNotFoundByIdAndYearException(sectionId, sectionYear));
     }
 
     public List<Section> findAll(){
         return this.sectionRepository.findAll();
     }
 
-    public List<Section> findAllByYearr(String sectionName){
-        return this.sectionRepository.findAllByYearr(sectionName);
+    public List<Section> findAllByYear(String sectionName){
+        return this.sectionRepository.findAllByYear(sectionName);
     }
 }
