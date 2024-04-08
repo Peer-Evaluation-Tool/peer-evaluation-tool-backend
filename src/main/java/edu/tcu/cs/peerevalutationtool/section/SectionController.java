@@ -24,6 +24,7 @@ public class SectionController {
         this.sectionToSectionDtoConverter = sectionToSectionDtoConverter;
     }
 
+    // Find a section with a certain ID
     @GetMapping("/api/v1/sections/{sectionId}")
     public Result findSectionById(@PathVariable String sectionId){
         Section foundSection = this.sectionService.findById(sectionId);
@@ -31,6 +32,7 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
 
+    // May not need
     @GetMapping("/api/v1/sections/yr/{sectionYear}")
     public Result findSectionByYear(@PathVariable String sectionYear){
         Section foundSection = this.sectionService.findByYear(sectionYear);
@@ -38,6 +40,7 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
 
+    // May not need
     @GetMapping("/api/v1/sections/secyr/{sectionId}+{sectionYear}")
     public Result findSectionByIdAndYear(@PathVariable String sectionId, @PathVariable String sectionYear){
         Section foundSection = this.sectionService.findByIdAndYear(sectionId, sectionYear);
@@ -45,6 +48,7 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Find One Success", sectionDto);
     }
 
+    // Return all sections
     @GetMapping("/api/v1/sections")
     public Result findAllSections(){
         List<Section> foundSections = this.sectionService.findAll();
@@ -55,6 +59,7 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Find All Success", sectionDtos);
     }
 
+    // Return all sections with a given year
     @GetMapping("/api/v1/sections/allbyyear/{sectionName}")
     public Result findAllByYear(@PathVariable String sectionName){
         List<Section> foundSections = this.sectionService.findAllByYear(sectionName);
