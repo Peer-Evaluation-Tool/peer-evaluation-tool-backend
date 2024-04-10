@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,13 +16,16 @@ public class Section implements Serializable {
     @Id
     private String id; // The section name is the ID!!!
 
-//    private List<String> activeWeeks;
+//    private ArrayList<String> activeWeeks =  new ArrayList<>();
+    ;
 
     @Column(name = "`year`")
     private String year;
 
     @ManyToOne
     private Admin overseer;
+
+//    private Rubric rubric
 
     public Section() {
     }

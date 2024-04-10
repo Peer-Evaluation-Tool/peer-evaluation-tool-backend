@@ -1,20 +1,30 @@
 package edu.tcu.cs.peerevalutationtool.section;
 
+import edu.tcu.cs.peerevalutationtool.section.dto.SectionDto;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +41,9 @@ class SectionControllerTest {
 
     @MockBean
     SectionService sectionService;
+
+//    @Autowired
+//    ObjectMapper objectMapper;
 
     List<Section> sections;
 
@@ -203,5 +216,30 @@ class SectionControllerTest {
                 .andExpect(jsonPath("$.data[1].id").value("Section 2023-2024-2"))
                 .andExpect(jsonPath("$.data[1].year").value("2023-2024"));
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//    @Test
+//    void testAddSectionSuccess() throws Exception {
+//        // Given
+//        SectionDto sectionDto = new SectionDto(null,
+//                                                "2023-2024",
+//                                                null);
+//        String json = this.objectMapper.writeValueAsString(sectionDto);
+//
+//        Section savedSection = new Section();
+//        savedSection.setId("Section 2023-2024");
+//        savedSection.setYear("2023-2024");
+//
+//        given(this.sectionService.save(Mockito.any(Section.class))).willReturn(savedSection);
+//
+////         When and then
+//        this.mockMvc.perform(post("/api/v1/sections").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.flag").value(true))
+//                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+//                .andExpect(jsonPath("$.message").value("Find One Success"))
+//                .andExpect(jsonPath("$.data.id").isNotEmpty());
+//
+//    }
 
 }
