@@ -38,4 +38,8 @@ public class SectionService {
     public List<Section> findAllByYear(String sectionName){
         return this.sectionRepository.findAllByYear(sectionName);
     }
+
+    public Section save(Section newSection){
+        return this.sectionRepository.save(newSection);
+    }
 }

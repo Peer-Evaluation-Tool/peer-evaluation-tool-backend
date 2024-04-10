@@ -6,6 +6,7 @@ import edu.tcu.cs.peerevalutationtool.system.Result;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -68,6 +69,12 @@ public class SectionController {
                 .map(foundSection -> this.sectionToSectionDtoConverter.convert(foundSection))
                 .collect(Collectors.toList());
         return new Result(true, StatusCode.SUCCESS, "Find All By Year Success", sectionDtos);
+    }
+
+    // Add a section
+    @PostMapping()
+    public Result addSection(){
+        return null;
     }
 
 }

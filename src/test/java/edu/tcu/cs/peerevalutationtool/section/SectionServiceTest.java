@@ -1,6 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.section;
 
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
+import edu.tcu.cs.peerevalutationtool.section.utils.IdWorker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ class SectionServiceTest {
 
     @Mock
     SectionRepository sectionRepository;
+
+    @Mock
+    IdWorker idWorker;
 
     @InjectMocks
     SectionService sectionService;
@@ -170,5 +174,23 @@ class SectionServiceTest {
         // Then
         assertThat(actualSections.size()).isEqualTo(this.sections.size());
         verify(sectionRepository, times(1)).findAllByYear("2023-2024");
+    }
+
+    @Test
+    void testSaveSuccess(){
+        // Given
+        Section newSection = new Section();
+        newSection.setId("Section 2023-2024");
+        newSection.setYear("2023-2024");
+
+        given(sectionRepository.save(newSection)).willReturn(newSection);
+
+        // When
+        Section savedSection = sectionService.save(newSection);
+
+        // Then
+        assertThat(savedSection.getId()).isEqualTo("Section 2023-2024");
+        assertThat(savedSection.getYear()).isEqualTo("2023-2024");
+        verify(sectionRepository, times(1)).save(newSection);
     }
 }
