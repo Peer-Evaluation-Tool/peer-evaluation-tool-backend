@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    List<Student> findByFirstNameAndLastNameAndSectionNameAndAcademicYearAndTeamName(
-            String firstName, String lastName, String sectionName, String academicYear, String teamName);
+//    List<Student> findByFirstNameAndLastNameSectionNameAndAcademicYearAndTeamName(
+//            String firstName, String lastName, String sectionName, String academicYear, String teamName);
 }

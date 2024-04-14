@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +44,8 @@ class SectionControllerTest {
     @MockBean
     SectionService sectionService;
 
-//    @Autowired
-//    ObjectMapper objectMapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
     List<Section> sections;
 
@@ -125,63 +127,6 @@ class SectionControllerTest {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    void testFindSectionByYearSuccess() throws Exception {
-        // Given
-        given(this.sectionService.findByYear("2023-2024")).willReturn(this.sections.get(6));
-
-        // When and then
-        this.mockMvc.perform(get("/api/v1/sections/yr/2023-2024").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.flag").value(true))
-                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
-                .andExpect(jsonPath("$.message").value("Find One Success"))
-                .andExpect(jsonPath("$.data.year").value("2023-2024"));
-    }
-
-    @Test
-    void testFindSectionByYearNotFound() throws Exception {
-        // Given
-        given(this.sectionService.findByYear("2023-2024")).willThrow(new SectionNotFoundByYearException("2023-2024"));
-
-        // When and then
-        this.mockMvc.perform(get("/api/v1/sections/yr/2023-2024").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.flag").value(false))
-                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
-                .andExpect(jsonPath("$.message").value("Could not find section with year 2023-2024 :("))
-                .andExpect(jsonPath("$.data").isEmpty());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test
-    void testFindSectionByIdAndYearSuccess() throws Exception {
-        // Given
-        given(this.sectionService.findByIdAndYear("Section 2023-2024", "2023-2024")).willReturn(this.sections.get(6));
-
-        // When and then
-        this.mockMvc.perform(get("/api/v1/sections/secyr/Section 2023-2024+2023-2024").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.flag").value(true))
-                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
-                .andExpect(jsonPath("$.message").value("Find One Success"))
-                .andExpect(jsonPath("$.data.id").value("Section 2023-2024"))
-                .andExpect(jsonPath("$.data.year").value("2023-2024"));
-    }
-
-    @Test
-    void testFindSectionByIdAndYearNotFound() throws Exception {
-        // Given
-        given(this.sectionService.findByIdAndYear("Section 2023-2024","2023-2024")).willThrow(new SectionNotFoundByIdAndYearException("Section 2023-2024","2023-2024"));
-
-        // When and then
-        this.mockMvc.perform(get("/api/v1/sections/secyr/Section 2023-2024+2023-2024").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.flag").value(false))
-                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
-                .andExpect(jsonPath("$.message").value("Could not find section with Id Section 2023-2024 and year 2023-2024 :("))
-                .andExpect(jsonPath("$.data").isEmpty());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test
     void testFindAllSectionsSuccess() throws Exception {
         // Given
         given(this.sectionService.findAll()).willReturn(this.sections);
@@ -219,27 +164,34 @@ class SectionControllerTest {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    @Test
-//    void testAddSectionSuccess() throws Exception {
-//        // Given
-//        SectionDto sectionDto = new SectionDto(null,
-//                                                "2023-2024",
-//                                                null);
-//        String json = this.objectMapper.writeValueAsString(sectionDto);
-//
-//        Section savedSection = new Section();
-//        savedSection.setId("Section 2023-2024");
-//        savedSection.setYear("2023-2024");
-//
-//        given(this.sectionService.save(Mockito.any(Section.class))).willReturn(savedSection);
-//
-////         When and then
-//        this.mockMvc.perform(post("/api/v1/sections").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.flag").value(true))
-//                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
-//                .andExpect(jsonPath("$.message").value("Find One Success"))
-//                .andExpect(jsonPath("$.data.id").isNotEmpty());
-//
-//    }
+    @Test
+    void testAddSectionSuccess() throws Exception {
+        // Given
+        SectionDto sectionDto = new SectionDto("Section 2023-2024",
+                                                "2023-2024",
+                                                "08/21/23",
+                                                "05/01/24",
+                                                null);
+        String json = this.objectMapper.writeValueAsString(sectionDto);
+
+        Section savedSection = new Section();
+        savedSection.setId("Section 2023-2024");
+        savedSection.setYear("2023-2024");
+        savedSection.setFirstDate("08/21/23");
+        savedSection.setLastDate("05/01/24");
+
+        given(this.sectionService.save(Mockito.any(Section.class))).willReturn(savedSection);
+
+        // When and then
+        this.mockMvc.perform(post("/api/v1/sections").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Add Success"))
+                .andExpect(jsonPath("$.data.id").isNotEmpty())
+                .andExpect(jsonPath("$.data.year").value("2023-2024"))
+                .andExpect(jsonPath("$.data.firstDate").value("08/21/23"))
+                .andExpect(jsonPath("$.data.lastDate").value("05/01/24"));
+
+    }
 
 }

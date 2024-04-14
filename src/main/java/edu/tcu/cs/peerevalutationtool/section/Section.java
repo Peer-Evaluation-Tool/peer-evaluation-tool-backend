@@ -25,6 +25,10 @@ public class Section implements Serializable {
     @ManyToOne
     private Admin overseer;
 
+    private String firstDate;
+
+    private String lastDate;
+
 //    private Rubric rubric
 
     public Section() {
@@ -52,6 +56,22 @@ public class Section implements Serializable {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public String getFirstDate() {
+        return firstDate;
+    }
+
+    public void setFirstDate(String firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
     }
 
     public Admin getOverseer() {
