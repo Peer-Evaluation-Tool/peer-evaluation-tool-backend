@@ -105,52 +105,6 @@ class SectionServiceTest {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    void testFindByYearSuccess() {
-        // Given. Arrange inputs and targets. Define the behavior of Mock object sectionRepository.
-        /*
-		    “name”: “Senior Section 2023-2024”,
-		    “year”: “2023-2024”,
-         */
-        Section sec = new Section();
-        sec.setId("Section 2023-2024");
-        sec.setYear("2023-2024");
-
-        Admin adm = new Admin();
-        adm.setId(1);
-        adm.setName("Bingyang Wei");
-
-        sec.setOverseer(adm);
-
-        given(sectionRepository.findByYear("2023-2024")).willReturn(Optional.of(sec)); // Defines the behavior of the mock object.
-
-        // When. Act on the target behavior. When steps should cover the method to be tested.
-        Section returnedSection = sectionService.findByYear("2023-2024");
-
-        // Then. Assert expected outcomes.
-        assertThat(returnedSection.getId()).isEqualTo(sec.getId());
-        assertThat(returnedSection.getYear()).isEqualTo(sec.getYear());
-        verify(sectionRepository, times(1)).findByYear("2023-2024");
-
-    }
-
-    @Test
-    void testFindByYearNotFound(){
-        // Given.
-        given(sectionRepository.findByYear(Mockito.any(String.class))).willReturn(Optional.empty());
-
-        // When.
-        Throwable thrown = catchThrowable(()->{
-            Section returnedSection = sectionService.findByYear("2023-2024");
-        });
-
-        // Then.
-        assertThat(thrown)
-                .isInstanceOf(SectionNotFoundByYearException.class)
-                .hasMessage("Could not find section with year 2023-2024 :(");
-        verify(sectionRepository, times(1)).findByYear("2023-2024");
-    }
-
-    @Test
     void testFindAllSuccess(){
         // Given
         given(sectionRepository.findAll()).willReturn(this.sections);

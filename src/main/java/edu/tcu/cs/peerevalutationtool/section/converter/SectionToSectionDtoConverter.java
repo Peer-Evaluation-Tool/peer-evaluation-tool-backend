@@ -19,6 +19,8 @@ public class SectionToSectionDtoConverter implements Converter<Section, SectionD
     public SectionDto convert(Section source) {
         SectionDto sectionDto = new SectionDto(source.getId(),
                                                 source.getYear(),
+                                                source.getFirstDate(),
+                                                source.getLastDate(),
                                                 source.getOverseer() != null
                                                         ? this.adminToAdminDtoConverter.convert(source.getOverseer())
                                                         : null);
