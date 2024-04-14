@@ -32,4 +32,15 @@ public class SectionService {
     public Section save(Section newSection){
         return this.sectionRepository.save(newSection);
     }
+
+    public Section update(String sectionId, Section update){
+        return this.sectionRepository.findById(sectionId)
+                .map(oldSection -> {
+                    oldSection.setYear(update.getYear());
+                    oldSection.setFirstDate(update.getFirstDate());
+                    oldSection.setLastDate(update.getLastDate());
+                    return this.sectionRepository.save(oldSection);
+                })
+                .orElseThrow(() -> new SectionNotFoundException(sectionId));
+    }
 }

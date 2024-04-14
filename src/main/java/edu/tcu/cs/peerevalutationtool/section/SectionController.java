@@ -68,4 +68,12 @@ public class SectionController {
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedSectionDto);
     }
 
+    @PutMapping("/{sectionId}")
+    public Result updateSection(@PathVariable String sectionId, @Valid @RequestBody SectionDto sectionDto){
+        Section update = this.sectionDtoToSectionConverter.convert(sectionDto);
+        Section updatedSection = this.sectionService.update(sectionId, update);
+        SectionDto updatedSectionDto = this.sectionToSectionDtoConverter.convert(updatedSection);
+        return new Result(true, StatusCode.SUCCESS, "Update Success", updatedSectionDto);
+    }
+
 }
