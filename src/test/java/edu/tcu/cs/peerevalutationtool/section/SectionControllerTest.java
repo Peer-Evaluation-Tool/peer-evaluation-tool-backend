@@ -194,4 +194,50 @@ class SectionControllerTest {
 
     }
 
+    @Test
+    void testUpdateSectionSuccess() throws Exception {
+        SectionDto sectionDto = new SectionDto("Section 2023-2024",
+                "2023-2024",
+                "08/21/23",
+                "05/01/24",
+                null);
+        String json = this.objectMapper.writeValueAsString(sectionDto);
+
+        Section updatedSection = new Section();
+        updatedSection.setId("Section 2023-2024");
+        updatedSection.setYear("2023-2024");
+        updatedSection.setFirstDate("08/20/24");
+        updatedSection.setLastDate("05/01/24");
+
+        given(this.sectionService.update(eq("Section 2023-2024"), Mockito.any(Section.class))).willReturn(updatedSection);
+
+        // When and then
+        this.mockMvc.perform(put("/api/v1/sections/Section 2023-2024").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Update Success"))
+                .andExpect(jsonPath("$.data.id").value("Section 2023-2024"))
+                .andExpect(jsonPath("$.data.firstDate").value(updatedSection.getFirstDate()))
+                .andExpect(jsonPath("$.data.lastDate").value(updatedSection.getLastDate()));
+    }
+
+    @Test
+    void testUpdateSectionErrorWithNonExistentId() throws Exception {
+        SectionDto sectionDto = new SectionDto("Section 2023-2024",
+                "2023-2024",
+                "08/21/23",
+                "05/01/24",
+                null);
+        String json = this.objectMapper.writeValueAsString(sectionDto);
+
+        given(this.sectionService.update(eq("Section 2023-2024"), Mockito.any(Section.class))).willThrow(new SectionNotFoundException("Section 2023-2024"));
+
+        // When and then
+        this.mockMvc.perform(put("/api/v1/sections/Section 2023-2024").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Could not find section with name Section 2023-2024 :("))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
 }

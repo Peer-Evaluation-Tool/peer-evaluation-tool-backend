@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -146,5 +147,52 @@ class SectionServiceTest {
         assertThat(savedSection.getId()).isEqualTo("Section 2023-2024");
         assertThat(savedSection.getYear()).isEqualTo("2023-2024");
         verify(sectionRepository, times(1)).save(newSection);
+    }
+
+    @Test
+    void testUpdateSuccess(){
+        // Given
+        Section oldSection = new Section();
+        oldSection.setId("Section 2024-2025");
+        oldSection.setYear("2024-2025");
+        oldSection.setFirstDate("08/21/24");
+        oldSection.setLastDate("05/01/25");
+
+        Section update = new Section();
+        update.setId("Section 2024-2025");
+        oldSection.setYear("2024-2025");
+        oldSection.setFirstDate("08/20/24");
+        oldSection.setLastDate("05/01/25");
+
+        given(sectionRepository.findById("Section 2024-2025")).willReturn(Optional.of(oldSection));
+        given(sectionRepository.save(oldSection)).willReturn(oldSection);
+
+        // When
+        Section updatedSection = sectionService.update("Section 2024-2025", update);
+
+        // Then
+        assertThat(updatedSection.getId()).isEqualTo(update.getId());
+        assertThat(updatedSection.getFirstDate()).isEqualTo(update.getFirstDate());
+        verify(sectionRepository, VerificationModeFactory.times(1)).findById("Section 2024-2025");
+        verify(sectionRepository, VerificationModeFactory.times(1)).save(oldSection);
+    }
+
+    @Test
+    void testUpdateNotFound(){
+        // Given
+        Section update = new Section();
+        update.setYear("2023-2024");
+        update.setFirstDate("08/20/23");
+        update.setLastDate("05/01/24");
+
+        given(sectionRepository.findById("Section 2023-2024")).willReturn(Optional.empty());
+
+        // When
+        assertThrows(SectionNotFoundException.class, ()->{
+            sectionService.update("Section 2023-2024", update);
+        });
+
+        // Then
+        verify(sectionRepository, VerificationModeFactory.times(1)).findById("Section 2023-2024");
     }
 }
