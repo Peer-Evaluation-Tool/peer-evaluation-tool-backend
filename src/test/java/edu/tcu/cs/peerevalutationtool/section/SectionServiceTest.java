@@ -195,4 +195,16 @@ class SectionServiceTest {
         // Then
         verify(sectionRepository, VerificationModeFactory.times(1)).findById("Section 2023-2024");
     }
+
+    @Test
+    void testSetupActiveWeeks(){
+        // Given
+        Section section = new Section();
+        section.setId("Section 2023-2024");
+        section.setYear("2023-2024");
+        section.setFirstDate("08/21/23");
+        section.setLastDate("05/01/24");
+
+        System.out.println(section.getActiveWeeks());
+    }
 }
