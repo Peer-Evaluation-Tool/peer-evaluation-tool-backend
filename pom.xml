@@ -51,6 +51,9 @@
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.1.Final</version>
         </dependency>
+        <!-- Spring Boot Starter Security -->
+
+
     </dependencies>
 
     <build>

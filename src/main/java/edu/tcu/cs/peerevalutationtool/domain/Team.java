@@ -1,5 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.domain;
 
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

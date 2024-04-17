@@ -1,9 +1,10 @@
 package edu.tcu.cs.peerevalutationtool.admin;
 
-import edu.tcu.cs.peerevalutationtool.domain.Student;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import edu.tcu.cs.peerevalutationtool.domain.Team;
 import edu.tcu.cs.peerevalutationtool.repository.StudentRepository;
 import edu.tcu.cs.peerevalutationtool.repository.TeamRepository;
+import edu.tcu.cs.peerevalutationtool.student.dto.StudentDto;
 import edu.tcu.cs.peerevalutationtool.system.email.EmailService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,10 @@ public class AdminService {
 
     private void sendTeamRemovalNotification(Student student) {
         String subject = "Team Removal Notification";
-        String content = String.format("Hello %s,\n\nYou have been removed from your team. Please contact the administration for further details.\n\nBest regards,\nPeer Evaluation Tool Team", student.getName());
+        String fullName = student.getFirstName() +
+                (student.getMiddleInitial() != null && !student.getMiddleInitial().isEmpty() ? " " + student.getMiddleInitial() + " " : " ") +
+                student.getLastName();
+        String content = String.format("Hello %s,\n\nYou have been removed from your team. Please contact the administration for further details.\n\nBest regards,\nPeer Evaluation Tool Team", fullName);
         try {
             emailService.sendEmail(student.getEmail(), subject, content);
         } catch (MessagingException e) {
@@ -99,9 +103,16 @@ public class AdminService {
         }
     }
 
+
     private void sendTeamAssignmentNotification(Student student) {
         String subject = "Team Assignment Notification";
-        String content = String.format("Hello %s,\n\nYou have been assigned to team '%s'. Please log in to the platform to view your team details and start collaborating with your teammates.\n\nBest regards,\nThe Peer Evaluation Tool Team", student.getName(), student.getTeam().getName());
+        // Construct full name including the middle initial if it exists
+        String fullName = student.getFirstName() +
+                (student.getMiddleInitial() != null && !student.getMiddleInitial().isEmpty() ? " " + student.getMiddleInitial() + " " : " ") +
+                student.getLastName();
+
+        String content = String.format("Hello %s,\n\nYou have been assigned to team '%s'. Please log in to the platform to view your team details and start collaborating with your teammates.\n\nBest regards,\nThe Peer Evaluation Tool Team",
+                fullName, student.getTeam().getName());
         try {
             emailService.sendEmail(student.getEmail(), subject, content);
         } catch (MessagingException e) {
@@ -109,6 +120,7 @@ public class AdminService {
             // Implement more robust error handling here
         }
     }
+
 
     private String generateEmailContent(String studentEmail, String adminName, String adminEmail) {
         String registrationLink = "http://example.com/register?email=" + studentEmail;
@@ -124,4 +136,16 @@ public class AdminService {
         //students.add(new Student("Jane", "Smith", "Section B", "2022", "Team Beta"));
         // You can add more dummy students as needed
         return students;
-    }}
+    }
+    public void updateStudentDetails(Long studentId, StudentDto studentDto) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentId));
+
+        student.setFirstName(studentDto.getFirstName());
+        student.setLastName(studentDto.getLastName());
+        student.setEmail(studentDto.getEmail());
+        // Ensure you handle any domain-specific validations or operations here
+        studentRepository.save(student);
+    }
+
+}

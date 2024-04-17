@@ -1,12 +1,12 @@
 package edu.tcu.cs.peerevalutationtool.admin;
 
-import edu.tcu.cs.peerevalutationtool.domain.Student;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import edu.tcu.cs.peerevalutationtool.domain.Team;
 import edu.tcu.cs.peerevalutationtool.repository.StudentRepository;
 import edu.tcu.cs.peerevalutationtool.repository.TeamRepository;
+import edu.tcu.cs.peerevalutationtool.student.dto.StudentDto;
 import edu.tcu.cs.peerevalutationtool.system.email.EmailService;
 import jakarta.mail.MessagingException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -75,7 +75,9 @@ public class AdminServiceTest {
         Student student = new Student();
         student.setId(studentId);
         student.setEmail("student@example.com");
-        student.setName("John Doe");
+        // Properly set the first and last names instead of using setName
+        student.setFirstName("John");
+        student.setLastName("Doe");
         // Setting a team to the student to simulate that they are part of a team before removal
         Team existingTeam = new Team();
         existingTeam.setId(99L); // Some existing team ID
@@ -99,6 +101,7 @@ public class AdminServiceTest {
             fail("No exception should be thrown when verifying interactions with a mock.");
         }
     }
+
     @Test
     public void testDeleteSeniorDesignTeam() {
         // Arrange
@@ -116,5 +119,36 @@ public class AdminServiceTest {
         // Assert
         verify(teamRepository, times(1)).delete(team);
     }
+    @Test
+    public void testUpdateStudentDetails() {
+        // Arrange
+        Long studentId = 1L;
+        Student existingStudent = new Student();
+        existingStudent.setId(studentId);
+        existingStudent.setFirstName("OldFirstName");
+        existingStudent.setLastName("OldLastName");
+        existingStudent.setEmail("old@example.com");
 
-}
+        StudentDto updateDto = new StudentDto();
+        updateDto.setFirstName("NewFirstName");
+        updateDto.setLastName("NewLastName");
+        updateDto.setEmail("new@example.com");
+
+        when(studentRepository.findById(studentId)).thenReturn(Optional.of(existingStudent));
+
+        // Act
+        adminService.updateStudentDetails(studentId, updateDto);
+
+        // Assert
+        ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
+        verify(studentRepository).save(studentCaptor.capture());
+        Student savedStudent = studentCaptor.getValue();
+
+        assertEquals("NewFirstName", savedStudent.getFirstName(), "First name should be updated.");
+        assertEquals("NewLastName", savedStudent.getLastName(), "Last name should be updated.");
+        assertEquals("new@example.com", savedStudent.getEmail(), "Email should be updated.");
+
+        }
+    }
+
+
