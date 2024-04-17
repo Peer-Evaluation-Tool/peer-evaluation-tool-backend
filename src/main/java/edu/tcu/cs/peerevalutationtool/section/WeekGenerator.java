@@ -30,21 +30,28 @@ public class WeekGenerator {
     }
 
     public static void main(String[] args) {
-        Section section = new Section();
+        /*Section section = new Section();
         section.setId("Section 2023-2024");
         section.setYear("2023-2024");
         section.setFirstDate("08/21/23");
-        section.setLastDate("05/01/24");
+        section.setLastDate("09/21/23");
 
         section.populateActiveWeeks();
-        System.out.println(section.getActiveWeeks());
+
+        for (int i = 0; i < section.getActiveWeeks().size(); i++){
+            System.out.println(section.getActiveWeeks().get(i));
+        }
 
         HashSet<Integer> indicesToRemove = new HashSet<>();
         indicesToRemove.add(0);
-        indicesToRemove.add(2);
+        indicesToRemove.add(1);
 
+        System.out.println();
         section.dropActiveWeeks(indicesToRemove);
 
-        System.out.println("\n" + section.getActiveWeeks());
+        for (int i = 0; i < section.getActiveWeeks().size(); i++){
+            System.out.println(section.getActiveWeeks().get(i));
+        }*/
+
     }
 }
