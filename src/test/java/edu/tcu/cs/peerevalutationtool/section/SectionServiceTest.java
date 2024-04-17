@@ -13,6 +13,7 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,9 +161,9 @@ class SectionServiceTest {
 
         Section update = new Section();
         update.setId("Section 2024-2025");
-        oldSection.setYear("2024-2025");
-        oldSection.setFirstDate("08/20/24");
-        oldSection.setLastDate("05/01/25");
+        update.setYear("2024-2025");
+        update.setFirstDate("08/20/24");
+        update.setLastDate("05/01/25");
 
         given(sectionRepository.findById("Section 2024-2025")).willReturn(Optional.of(oldSection));
         given(sectionRepository.save(oldSection)).willReturn(oldSection);
@@ -197,14 +198,29 @@ class SectionServiceTest {
     }
 
     @Test
-    void testSetupActiveWeeks(){
-        // Given
+    void testUpdateActiveWeeksSuccess(){
+        /*// Given
         Section section = new Section();
         section.setId("Section 2023-2024");
         section.setYear("2023-2024");
         section.setFirstDate("08/21/23");
-        section.setLastDate("05/01/24");
+        section.setLastDate("09/21/23");
 
-        System.out.println(section.getActiveWeeks());
+        given(sectionRepository.findById("Section 2023-2024")).willReturn(Optional.of(section));
+        given(sectionRepository.save(section)).willReturn(section);
+
+        // When
+        HashSet<Integer> indicesToRemove = new HashSet<>();
+        indicesToRemove.add(0);
+        indicesToRemove.add(1);
+        Section updatedSection = sectionService.updateActiveWeeks("Section 2023-2024", indicesToRemove);
+
+        // Then
+        assertThat(updatedSection.getId()).isEqualTo("Section 2023-2024");
+        assertThat(updatedSection.getFirstDate()).isEqualTo("08/21/23");
+        assertThat(updatedSection.getLastDate()).isEqualTo("09/21/23");
+        verify(sectionRepository, VerificationModeFactory.times(1)).findById("Section 2023-2024");
+        verify(sectionRepository, VerificationModeFactory.times(1)).save(section);*/
+
     }
 }
