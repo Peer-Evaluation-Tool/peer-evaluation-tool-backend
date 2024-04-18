@@ -1,12 +1,12 @@
 package edu.tcu.cs.peerevalutationtool.section;
 
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
+import edu.tcu.cs.peerevalutationtool.instructor.Instructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Section implements Serializable {
@@ -20,6 +20,9 @@ public class Section implements Serializable {
 
     @ManyToOne
     private Admin overseer;
+
+//    @ManyToOne
+    private Instructor owner;
 
     public Section() {
     }
@@ -55,5 +58,8 @@ public class Section implements Serializable {
     public void setOverseer(Admin overseer) {
         this.overseer = overseer;
     }
+
+    public Instructor getOwner() { return owner; }
+    public void setOwner(Instructor owner) { this.owner = owner; }
 
 }
