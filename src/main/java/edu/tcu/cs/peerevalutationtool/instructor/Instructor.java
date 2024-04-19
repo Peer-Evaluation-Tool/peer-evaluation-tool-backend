@@ -16,8 +16,10 @@ public class Instructor implements Serializable {
 
     private String name;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "owner")
+//    private String password;
+
     //when one instructor is saved, all sections for that instructor is saved as well.
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "owner")
     private List<Section> sections = new ArrayList<>();
 
     public Instructor() {

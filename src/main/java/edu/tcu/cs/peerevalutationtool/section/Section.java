@@ -19,8 +19,6 @@ public class Section implements Serializable {
     @Id
     private String id; // The section name is the ID!!!
 
-
-
     @Column(name = "`year`")
     private String year;
 

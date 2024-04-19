@@ -4,6 +4,7 @@ import edu.tcu.cs.peerevalutationtool.section.Section;
 import edu.tcu.cs.peerevalutationtool.section.SectionRepository;
 import edu.tcu.cs.peerevalutationtool.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class InstructorService {
 
     private final SectionRepository sectionRepository;
 
+//    @Autowired
     public InstructorService(InstructorRepository instructorRepository, SectionRepository sectionRepository) {
         this.instructorRepository = instructorRepository;
         this.sectionRepository = sectionRepository;

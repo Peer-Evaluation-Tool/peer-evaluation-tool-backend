@@ -30,9 +30,6 @@ class SectionServiceTest {
     @Mock
     SectionRepository sectionRepository;
 
-    @Mock
-    IdWorker idWorker;
-
     @InjectMocks
     SectionService sectionService;
 
