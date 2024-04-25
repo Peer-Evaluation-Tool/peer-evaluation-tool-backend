@@ -11,27 +11,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class PeerEvaluationService {
 
     private static final Logger log = LoggerFactory.getLogger(PeerEvaluationService.class);
-    private final PeerEvaluationRepository repository;
+    private final PeerEvaluationRepository peerEvaluationRepository;
 
     @Autowired
-    public PeerEvaluationService(PeerEvaluationRepository repository) {
-        this.repository = repository;
+    public PeerEvaluationService(PeerEvaluationRepository peerEvaluationRepository) {
+        this.peerEvaluationRepository = peerEvaluationRepository;
     }
 
     @Transactional
     public PeerEvaluation submitEvaluation(PeerEvaluation evaluation) {
         log.info("Submitting peer evaluation for evaluator {} on evaluatee {}", evaluation.getEvaluator().getId(), evaluation.getEvaluatee().getId());
-        PeerEvaluation savedEvaluation = repository.save(evaluation);
+        PeerEvaluation savedEvaluation = peerEvaluationRepository.save(evaluation);
         log.info("Submitted peer evaluation with ID: {}", savedEvaluation.getId());
         return savedEvaluation;
     }
 
     @Transactional(readOnly = true)
     public PeerEvaluation findEvaluationById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new EvaluationNotFoundException("Peer evaluation with ID " + id + " not found."));
+        return peerEvaluationRepository.findById(id).orElseThrow(() -> new EvaluationNotFoundException("Peer evaluation with ID " + id + " not found."));
     }
 
     /**
@@ -41,7 +42,11 @@ public class PeerEvaluationService {
      */
     @Transactional(readOnly = true)
     public List<PeerEvaluation> findEvaluationsByEvaluateeId(Long studentId) {
-        return repository.findByEvaluateeId(studentId);  // Assume this method is implemented in the repository
+        return this.peerEvaluationRepository.findByEvaluateeId(studentId);  // Assume this method is implemented in the repository
+    }
+
+    public List<PeerEvaluation> findAllByWeek(String peerEvaluationWeek){
+        return peerEvaluationRepository.findAllByWeek(peerEvaluationWeek);
     }
 }
 

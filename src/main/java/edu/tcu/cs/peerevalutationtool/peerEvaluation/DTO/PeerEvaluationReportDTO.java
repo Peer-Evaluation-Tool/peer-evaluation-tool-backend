@@ -5,16 +5,18 @@ public class PeerEvaluationReportDTO {
     private Double qualityOfWorkAverage;
     private String publicComments;
     private Integer overallGrade;
+    private String week;
 
     // Constructors
     public PeerEvaluationReportDTO() {
     }
 
-    public PeerEvaluationReportDTO(String studentName, Double qualityOfWorkAverage, String publicComments, Integer overallGrade) {
+    public PeerEvaluationReportDTO(String studentName, Double qualityOfWorkAverage, String publicComments, Integer overallGrade, String week) {
         this.studentName = studentName;
         this.qualityOfWorkAverage = qualityOfWorkAverage;
         this.publicComments = publicComments;
         this.overallGrade = overallGrade;
+        this.week = week;
     }
 
     // Getters
@@ -49,5 +51,13 @@ public class PeerEvaluationReportDTO {
 
     public void setOverallGrade(Integer overallGrade) {
         this.overallGrade = overallGrade;
+    }
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
     }
 }

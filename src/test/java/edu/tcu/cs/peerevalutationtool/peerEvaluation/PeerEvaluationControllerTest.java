@@ -1,6 +1,10 @@
 package edu.tcu.cs.peerevalutationtool.peerEvaluation;
 
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluation;
+import edu.tcu.cs.peerevalutationtool.student.Student;
+import edu.tcu.cs.peerevalutationtool.system.StatusCode;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -8,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,12 +27,66 @@ public class PeerEvaluationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PeerEvaluationService service;
+    private PeerEvaluationService peerEvaluationService;
+
+    List<PeerEvaluation> evaluations;
+
+    @BeforeEach
+    void setUp() {
+        Student evaluator = new Student();
+        evaluator.setId(1L);
+        evaluator.setFirstName("Carlos");
+        Student evaluatee = new Student();
+        evaluatee.setId(2L);
+        evaluatee.setFirstName("Eriife");
+
+        PeerEvaluation evaluation = new PeerEvaluation();
+        evaluation.setId(1L);
+        evaluation.setEvaluator(evaluator);
+        evaluation.setEvaluatee(evaluatee);
+        evaluation.setQualityOfWork(9);
+        evaluation.setPublicComments("Good job!");
+        evaluation.setPrivateComments("Need improvement on documentation.");
+        evaluation.setWeek("02-12-2024");
+
+        PeerEvaluation evaluation2 = new PeerEvaluation();
+        evaluation2.setId(2L);
+        evaluation2.setEvaluator(evaluator);
+        evaluation2.setEvaluatee(evaluator);
+        evaluation2.setQualityOfWork(10);
+        evaluation2.setPublicComments("");
+        evaluation2.setPrivateComments("");
+        evaluation2.setWeek("02-12-2024");
+
+        PeerEvaluation evaluation3 = new PeerEvaluation();
+        evaluation3.setId(3L);
+        evaluation3.setEvaluator(evaluator);
+        evaluation3.setEvaluatee(evaluator);
+        evaluation3.setQualityOfWork(10);
+        evaluation3.setPublicComments("");
+        evaluation3.setPrivateComments("");
+        evaluation3.setWeek("02-12-2024");
+
+        PeerEvaluation evaluation4 = new PeerEvaluation();
+        evaluation4.setId(4L);
+        evaluation4.setEvaluator(evaluator);
+        evaluation4.setEvaluatee(evaluator);
+        evaluation4.setQualityOfWork(10);
+        evaluation4.setPublicComments("");
+        evaluation4.setPrivateComments("");
+        evaluation4.setWeek("02-12-2024");
+
+        evaluations = new ArrayList<>();
+        evaluations.add(evaluation);
+        evaluations.add(evaluation2);
+        evaluations.add(evaluation3);
+        evaluations.add(evaluation4);
+    }
 
     @Test
     public void testSubmitEvaluation() throws Exception {
         PeerEvaluation evaluation = new PeerEvaluation();
-        given(service.submitEvaluation(any(PeerEvaluation.class))).willReturn(evaluation);
+        given(peerEvaluationService.submitEvaluation(any(PeerEvaluation.class))).willReturn(evaluation);
 
         mockMvc.perform(post("/peer-evaluations")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -38,7 +97,7 @@ public class PeerEvaluationControllerTest {
     @Test
     public void testGetEvaluation() throws Exception {
         PeerEvaluation evaluation = new PeerEvaluation();
-        given(service.findEvaluationById(1L)).willReturn(evaluation);
+        given(peerEvaluationService.findEvaluationById(1L)).willReturn(evaluation);
 
         mockMvc.perform(get("/peer-evaluations/1")
                         .accept(MediaType.APPLICATION_JSON))
@@ -57,7 +116,7 @@ public class PeerEvaluationControllerTest {
 
         List<PeerEvaluation> evaluations = Arrays.asList(evaluation1, evaluation2);
 
-        given(service.findEvaluationsByEvaluateeId(studentId)).willReturn(evaluations);
+        given(peerEvaluationService.findEvaluationsByEvaluateeId(studentId)).willReturn(evaluations);
 
         mockMvc.perform(get("/peer-evaluations/reports/" + studentId)
                         .accept(MediaType.APPLICATION_JSON))
@@ -68,5 +127,37 @@ public class PeerEvaluationControllerTest {
                 .andExpect(jsonPath("$[1].publicComments").value("Excellent teamwork!"));
     }
 
+    @Test
+    void testFindAllPeerEvaluationsByWeekSuccess() throws Exception {
+        // Given
+        given(this.peerEvaluationService.findAllByWeek("02-12-2024")).willReturn(this.evaluations);
 
+        // When and then
+        this.mockMvc.perform(get("/peer-evaluations/reports/allbyweek/02-12-2024").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Find All by Week Success"))
+                .andExpect(jsonPath("$.data").value(Matchers.hasSize(4)))
+                .andExpect(jsonPath("$.data[0].id").value(1))
+                .andExpect(jsonPath("$.data[1].id").value(2))
+                .andExpect(jsonPath("$.data[2].id").value(3))
+                .andExpect(jsonPath("$.data[3].id").value(4))
+                .andExpect(jsonPath("$.data[0].publicComments").value("Good job!"))
+                .andExpect(jsonPath("$.data[1].publicComments").value(""))
+                .andExpect(jsonPath("$.data[2].publicComments").value(""))
+                .andExpect(jsonPath("$.data[3].publicComments").value(""))
+                .andExpect(jsonPath("$.data[0].privateComments").value("Need improvement on documentation."))
+                .andExpect(jsonPath("$.data[1].privateComments").value(""))
+                .andExpect(jsonPath("$.data[2].privateComments").value(""))
+                .andExpect(jsonPath("$.data[3].privateComments").value(""))
+                .andExpect(jsonPath("$.data[0].week").value("02-12-2024"))
+                .andExpect(jsonPath("$.data[1].week").value("02-12-2024"))
+                .andExpect(jsonPath("$.data[2].week").value("02-12-2024"))
+                .andExpect(jsonPath("$.data[3].week").value("02-12-2024"));
+    }
+
+    @Test
+    void testGeneratePeerEvaluationForASection(){
+
+    }
 }

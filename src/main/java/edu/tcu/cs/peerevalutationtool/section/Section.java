@@ -25,13 +25,14 @@ public class Section implements Serializable {
     @ManyToOne
     private Admin overseer;
 
-//    @ManyToOne
+    @ManyToOne
     private Instructor owner;
     private String firstDate;
 
     private String lastDate;
-//    @ElementCollection
-//    private ArrayList<LocalDate> activeWeeks =  new ArrayList<>();
+
+    @ElementCollection
+    private ArrayList<String> activeWeeks =  new ArrayList<>();
 //    private ArrayList<LocalDate> activeWeeks =  WeekGenerator.generateWeeks(this.firstDate, this.lastDate);
 
 
@@ -73,7 +74,15 @@ public class Section implements Serializable {
         this.lastDate = lastDate;
     }
 
-//    public ArrayList<LocalDate> getActiveWeeks() {
+    public ArrayList<String> getActiveWeeks() {
+        return activeWeeks;
+    }
+
+    public void setActiveWeeks(ArrayList<String> activeWeeks) {
+        this.activeWeeks = activeWeeks;
+    }
+
+    //    public ArrayList<LocalDate> getActiveWeeks() {
 //        return activeWeeks;
 //    }
 
