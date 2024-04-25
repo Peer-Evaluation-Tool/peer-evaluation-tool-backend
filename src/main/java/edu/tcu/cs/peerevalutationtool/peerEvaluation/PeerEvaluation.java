@@ -31,6 +31,8 @@ public class PeerEvaluation {
 
     private String privateComments;
 
+    private String week;
+
     public PeerEvaluation() {
     }
 
@@ -81,5 +83,13 @@ public class PeerEvaluation {
 
     public void setPrivateComments(String privateComments) {
         this.privateComments = privateComments;
+    }
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
     }
 }
