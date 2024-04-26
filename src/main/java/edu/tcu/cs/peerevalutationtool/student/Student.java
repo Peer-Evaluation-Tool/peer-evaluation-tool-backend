@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.lang.Comparable;
 
 @Entity
-public class Student {
+public class Student{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -105,5 +106,9 @@ public class Student {
     private String hashPassword(String password) {
         // Implement hashing logic here
         return password; // Return hashed password
+    }
+
+    public int compareTo(Student evaluatee) {
+        return this.getFirstName().compareTo(evaluatee.getFirstName());
     }
 }

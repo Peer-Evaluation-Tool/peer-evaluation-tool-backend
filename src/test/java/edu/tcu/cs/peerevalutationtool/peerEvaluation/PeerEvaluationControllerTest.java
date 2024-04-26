@@ -1,7 +1,10 @@
 package edu.tcu.cs.peerevalutationtool.peerEvaluation;
 
+import edu.tcu.cs.peerevalutationtool.peerEvaluation.DTO.PeerEvaluationDto;
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluation;
+import edu.tcu.cs.peerevalutationtool.peerEvaluation.converter.EvaluationToEvaluationDtoConverter;
 import edu.tcu.cs.peerevalutationtool.student.Student;
+import edu.tcu.cs.peerevalutationtool.student.converter.StudentToAdminDtoConverter;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,15 +33,24 @@ public class PeerEvaluationControllerTest {
     private PeerEvaluationService peerEvaluationService;
 
     List<PeerEvaluation> evaluations;
+    private EvaluationToEvaluationDtoConverter evaluationToEvaluationDtoConverter;
+    private StudentToAdminDtoConverter studentToAdminDtoConverter;
+    private Student evaluator;
+    private Student evaluatee;
 
     @BeforeEach
     void setUp() {
-        Student evaluator = new Student();
+        studentToAdminDtoConverter = new StudentToAdminDtoConverter();
+        evaluationToEvaluationDtoConverter = new EvaluationToEvaluationDtoConverter(studentToAdminDtoConverter);
+
+        evaluator = new Student();
         evaluator.setId(1L);
         evaluator.setFirstName("Carlos");
-        Student evaluatee = new Student();
+        evaluator.setLastName("Prudhomme");
+        evaluatee = new Student();
         evaluatee.setId(2L);
         evaluatee.setFirstName("Eriife");
+        evaluatee.setLastName("A");
 
         PeerEvaluation evaluation = new PeerEvaluation();
         evaluation.setId(1L);
@@ -69,8 +81,8 @@ public class PeerEvaluationControllerTest {
 
         PeerEvaluation evaluation4 = new PeerEvaluation();
         evaluation4.setId(4L);
-        evaluation4.setEvaluator(evaluator);
-        evaluation4.setEvaluatee(evaluator);
+        evaluation4.setEvaluator(evaluatee);
+        evaluation4.setEvaluatee(evaluatee);
         evaluation4.setQualityOfWork(10);
         evaluation4.setPublicComments("");
         evaluation4.setPrivateComments("");
@@ -138,26 +150,36 @@ public class PeerEvaluationControllerTest {
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find All by Week Success"))
                 .andExpect(jsonPath("$.data").value(Matchers.hasSize(4)))
-                .andExpect(jsonPath("$.data[0].id").value(1))
-                .andExpect(jsonPath("$.data[1].id").value(2))
-                .andExpect(jsonPath("$.data[2].id").value(3))
-                .andExpect(jsonPath("$.data[3].id").value(4))
-                .andExpect(jsonPath("$.data[0].publicComments").value("Good job!"))
+                .andExpect(jsonPath("$.data[0].id").value(2))
+                .andExpect(jsonPath("$.data[1].id").value(3))
+                .andExpect(jsonPath("$.data[2].id").value(4))
+                .andExpect(jsonPath("$.data[3].id").value(1))
+                .andExpect(jsonPath("$.data[0].publicComments").value(""))
                 .andExpect(jsonPath("$.data[1].publicComments").value(""))
                 .andExpect(jsonPath("$.data[2].publicComments").value(""))
-                .andExpect(jsonPath("$.data[3].publicComments").value(""))
-                .andExpect(jsonPath("$.data[0].privateComments").value("Need improvement on documentation."))
+                .andExpect(jsonPath("$.data[3].publicComments").value("Good job!"))
+                .andExpect(jsonPath("$.data[0].privateComments").value(""))
                 .andExpect(jsonPath("$.data[1].privateComments").value(""))
                 .andExpect(jsonPath("$.data[2].privateComments").value(""))
-                .andExpect(jsonPath("$.data[3].privateComments").value(""))
+                .andExpect(jsonPath("$.data[3].privateComments").value("Need improvement on documentation."))
                 .andExpect(jsonPath("$.data[0].week").value("02-12-2024"))
                 .andExpect(jsonPath("$.data[1].week").value("02-12-2024"))
                 .andExpect(jsonPath("$.data[2].week").value("02-12-2024"))
                 .andExpect(jsonPath("$.data[3].week").value("02-12-2024"));
     }
 
-    @Test
-    void testGeneratePeerEvaluationForASection(){
 
+    @Test
+    void testFindAllPeerEvaluationsByEvaluateeIdSuccess() throws Exception{
+        // Given
+        given(this.peerEvaluationService.findAllByEvaluateeId(1L)).willReturn(this.evaluations.subList(1,3));
+
+        // When and then
+        this.mockMvc.perform(get("/peer-evaluations/reports/AllByEvaluateeId/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Find All by Evaluatee Id Success"))
+                .andExpect(jsonPath("$.data").value(Matchers.hasSize(2)))
+                .andExpect(jsonPath("$.data[0].publicComments").value(""));
     }
 }

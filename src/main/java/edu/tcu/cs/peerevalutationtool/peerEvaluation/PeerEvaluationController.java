@@ -6,6 +6,7 @@ import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluation;
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluationService;
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.converter.EvaluationDtoToEvaluationConverter;
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.converter.EvaluationToEvaluationDtoConverter;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import edu.tcu.cs.peerevalutationtool.system.Result;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
 import jakarta.validation.Valid;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,10 +78,22 @@ public class PeerEvaluationController {
     @GetMapping("/reports/allbyweek/{peerEvaluationWeek}")
     public Result findAllByWeek(@PathVariable String peerEvaluationWeek){
         List<PeerEvaluation> foundEvaluations = this.peerEvaluationService.findAllByWeek(peerEvaluationWeek);
+        foundEvaluations.sort(PeerEvaluation::compareTo);
         // Convert foundEvaluations to a list of evaluationDtos
         List<PeerEvaluationDto> evaluationDtos = foundEvaluations.stream()
-                .map(foundEvaluation -> this.evaluationToEvaluationDtoConverter.convert(foundEvaluation))
+                .map(this.evaluationToEvaluationDtoConverter::convert)
                 .collect(Collectors.toList());
         return new Result(true, StatusCode.SUCCESS, "Find All by Week Success", evaluationDtos);
+    }
+
+    @GetMapping("/reports/AllByEvaluateeId/{id}")
+    public Result findAllByEvaluateeId(@PathVariable Long id){
+        List<PeerEvaluation> foundEvaluations = this.peerEvaluationService.findAllByEvaluateeId(id);
+//        foundEvaluations.sort(PeerEvaluation::compareTo);
+        // Convert foundEvaluations to a list of evaluationDtos
+        List<PeerEvaluationDto> evaluationDtos = foundEvaluations.stream()
+                .map(this.evaluationToEvaluationDtoConverter::convert)
+                .collect(Collectors.toList());
+        return new Result(true, StatusCode.SUCCESS, "Find All by Evaluatee Id Success", evaluationDtos);
     }
 }
