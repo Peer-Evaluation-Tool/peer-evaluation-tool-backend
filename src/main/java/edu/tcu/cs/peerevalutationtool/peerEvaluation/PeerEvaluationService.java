@@ -2,6 +2,7 @@ package edu.tcu.cs.peerevalutationtool.peerEvaluation;
 
 import edu.tcu.cs.peerevalutationtool.repository.PeerEvaluationRepository;
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluation;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,10 @@ public class PeerEvaluationService {
 
     public List<PeerEvaluation> findAllByWeek(String peerEvaluationWeek){
         return peerEvaluationRepository.findAllByWeek(peerEvaluationWeek);
+    }
+
+    public List<PeerEvaluation> findAllByEvaluateeId(Long id){
+        return peerEvaluationRepository.findAllByEvaluateeId(id);
     }
 }
 

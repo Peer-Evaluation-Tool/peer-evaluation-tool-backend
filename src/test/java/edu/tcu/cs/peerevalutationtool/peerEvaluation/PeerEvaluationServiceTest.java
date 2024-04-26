@@ -61,9 +61,11 @@ public class PeerEvaluationServiceTest {
         evaluator = new Student();
         evaluator.setId(1L);
         evaluator.setFirstName("Carlos");
+        evaluator.setLastName("Prudhomme");
         evaluatee = new Student();
         evaluatee.setId(2L);
         evaluatee.setFirstName("Eriife");
+        evaluatee.setLastName("A");
 
         evaluation = new PeerEvaluation();
         evaluation.setId(1L);
@@ -175,5 +177,17 @@ public class PeerEvaluationServiceTest {
         // Then
         assertThat(actualPeerEvaluations.size()).isEqualTo(this.evaluations.size());
         verify(peerEvaluationRepository, times(1)).findAllByWeek("02-12-2024");
+    }
+    @Test
+    void testFindAllByStudent(){
+        // Given
+        given(peerEvaluationRepository.findAllByEvaluateeId(1L)).willReturn(this.evaluations.subList(0,2));
+
+        // When
+        List<PeerEvaluation> actualPeerEvaluations = peerEvaluationService.findAllByEvaluateeId(1L);
+
+        // Then
+        assertThat(actualPeerEvaluations.size()).isEqualTo(this.evaluations.subList(0,2).size());
+        verify(peerEvaluationRepository, times(1)).findAllByEvaluateeId(1L);
     }
 }
