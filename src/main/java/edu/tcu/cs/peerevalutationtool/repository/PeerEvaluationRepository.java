@@ -1,6 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.repository;
 
 import edu.tcu.cs.peerevalutationtool.peerEvaluation.PeerEvaluation;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface PeerEvaluationRepository extends JpaRepository<PeerEvaluation, 
     List<PeerEvaluation> findByEvaluateeId(Long evaluateeId);
 
     List<PeerEvaluation> findAllByWeek(String peerEvaluationWeek);
+
+    List<PeerEvaluation> findAllByEvaluateeId(Long id);
 }

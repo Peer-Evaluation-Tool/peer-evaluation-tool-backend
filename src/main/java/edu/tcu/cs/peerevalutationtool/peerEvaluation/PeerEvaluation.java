@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class PeerEvaluation {
+public class PeerEvaluation implements Comparable<PeerEvaluation>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -91,5 +91,10 @@ public class PeerEvaluation {
 
     public void setWeek(String week) {
         this.week = week;
+    }
+
+    @Override
+    public int compareTo(PeerEvaluation o) {
+        return this.getEvaluatee().compareTo(o.getEvaluatee());
     }
 }
