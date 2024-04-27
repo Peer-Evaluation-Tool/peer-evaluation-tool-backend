@@ -1,9 +1,9 @@
 package edu.tcu.cs.peerevalutationtool.admin;
 
 import edu.tcu.cs.peerevalutationtool.student.Student;
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.repository.StudentRepository;
-import edu.tcu.cs.peerevalutationtool.repository.TeamRepository;
+import edu.tcu.cs.peerevalutationtool.team.TeamRepository;
 import edu.tcu.cs.peerevalutationtool.student.dto.StudentDto;
 import edu.tcu.cs.peerevalutationtool.system.email.EmailService;
 import jakarta.mail.MessagingException;
@@ -40,7 +40,7 @@ public class AdminService {
         });
     }
 
-    public void assignStudentsToTeam(Long teamId, List<Long> studentIds) {
+    public void assignStudentsToTeam(String teamId, List<Long> studentIds) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new IllegalArgumentException("Team not found."));
         List<Student> students = studentRepository.findAllById(studentIds);
 
@@ -61,7 +61,7 @@ public class AdminService {
         sendTeamRemovalNotification(student);
     }
 
-    public void deleteSeniorDesignTeam(Long teamId) {
+    public void deleteSeniorDesignTeam(String teamId) {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
 
@@ -112,7 +112,7 @@ public class AdminService {
                 student.getLastName();
 
         String content = String.format("Hello %s,\n\nYou have been assigned to team '%s'. Please log in to the platform to view your team details and start collaborating with your teammates.\n\nBest regards,\nThe Peer Evaluation Tool Team",
-                fullName, student.getTeam().getName());
+                fullName, student.getTeam().getId());
         try {
             emailService.sendEmail(student.getEmail(), subject, content);
         } catch (MessagingException e) {

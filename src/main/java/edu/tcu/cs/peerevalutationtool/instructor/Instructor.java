@@ -1,6 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.instructor;
 
 import edu.tcu.cs.peerevalutationtool.section.Section;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -21,6 +22,8 @@ public class Instructor implements Serializable {
     //when one instructor is saved, all sections for that instructor is saved as well.
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "owner")
     private List<Section> sections = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "instructor")
+    private List<Team> teams = new ArrayList<>();
 
     public Instructor() {
     }
@@ -67,5 +70,20 @@ public class Instructor implements Serializable {
         //remove section owner
         sectionToBeAssigned.setOwner(null);
         this.sections.remove(sectionToBeAssigned);
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public void addTeam(Team team) {
+
+        team.setInstructor(this);
+        this.teams.add(team);
+
     }
 }

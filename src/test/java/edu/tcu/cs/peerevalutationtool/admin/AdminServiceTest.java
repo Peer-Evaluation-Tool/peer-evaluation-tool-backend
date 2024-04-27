@@ -1,9 +1,9 @@
 package edu.tcu.cs.peerevalutationtool.admin;
 
 import edu.tcu.cs.peerevalutationtool.student.Student;
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.repository.StudentRepository;
-import edu.tcu.cs.peerevalutationtool.repository.TeamRepository;
+import edu.tcu.cs.peerevalutationtool.team.TeamRepository;
 import edu.tcu.cs.peerevalutationtool.student.dto.StudentDto;
 import edu.tcu.cs.peerevalutationtool.system.email.EmailService;
 import jakarta.mail.MessagingException;
@@ -40,8 +40,7 @@ public class AdminServiceTest {
     public void testAssignStudentsToTeam() {
         // Arrange
         Team team = new Team();
-        team.setId(1L);
-        team.setName("Team Alpha");
+        team.setId("Team Alpha");
 
         Student student1 = new Student();
         student1.setId(1L);
@@ -54,7 +53,7 @@ public class AdminServiceTest {
         List<Student> students = Arrays.asList(student1, student2);
         List<Long> studentIds = Arrays.asList(student1.getId(), student2.getId());
 
-        when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));
+        when(teamRepository.findById(anyString())).thenReturn(Optional.of(team));
         when(studentRepository.findAllById(studentIds)).thenReturn(students);
 
         // Act
@@ -80,7 +79,7 @@ public class AdminServiceTest {
         student.setLastName("Doe");
         // Setting a team to the student to simulate that they are part of a team before removal
         Team existingTeam = new Team();
-        existingTeam.setId(99L); // Some existing team ID
+        existingTeam.setId("Some existing team name"); // Some existing team ID
         student.setTeam(existingTeam);
 
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
@@ -105,10 +104,9 @@ public class AdminServiceTest {
     @Test
     public void testDeleteSeniorDesignTeam() {
         // Arrange
-        Long teamId = 1L;
+        String teamId = "Senior Design Team";
         Team team = new Team();
         team.setId(teamId);
-        team.setName("Senior Design Team");
 
         // Mock repository behavior
         when(teamRepository.findById(teamId)).thenReturn(Optional.of(team));

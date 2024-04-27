@@ -2,8 +2,11 @@ package edu.tcu.cs.peerevalutationtool.system;
 
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
 import edu.tcu.cs.peerevalutationtool.admin.AdminRepository;
+import edu.tcu.cs.peerevalutationtool.instructor.Instructor;
+import edu.tcu.cs.peerevalutationtool.team.TeamRepository;
 import edu.tcu.cs.peerevalutationtool.section.Section;
 import edu.tcu.cs.peerevalutationtool.section.SectionRepository;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +16,18 @@ public class DBDataInitializer implements CommandLineRunner {
     private final SectionRepository sectionRepository;
 
     private final AdminRepository adminRepository;
+    private final TeamRepository teamRepository;
 
 
-    public DBDataInitializer(SectionRepository sectionRepository, AdminRepository adminRepository) {
+    public DBDataInitializer(SectionRepository sectionRepository, AdminRepository adminRepository, TeamRepository teamRepository) {
         this.sectionRepository = sectionRepository;
         this.adminRepository = adminRepository;
+        this.teamRepository = teamRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        //Section Initialization
         Section sec1 = new Section();
         sec1.setId("Section 2017-2018");
         sec1.setYear("2017-2018");
@@ -70,9 +76,38 @@ public class DBDataInitializer implements CommandLineRunner {
         sec8.setFirstDate("08/21/23");
         sec8.setLastDate("05/01/24");
 
+        //Admin Initialization
         Admin adm1 = new Admin();
         adm1.setId(1);
         adm1.setName("Bingyang Wei");
+
+        Admin adm2 = new Admin();
+        adm2.setId(2);
+        adm2.setName("Mr. Humpty Dumpty");
+
+
+        //Instructor Initialization
+        Instructor instructor = new Instructor();
+        instructor.setId(1);
+        instructor.setName("Test instructor");
+
+        //Teams Initialization
+        Team team1 = new Team();
+        team1.setId("Team 1");
+        team1.setAcademicYear("2023-24");
+        team1.setOverseer(adm1);
+
+        Team team2 = new Team();
+        team2.setId("Team 2");
+        team2.setAcademicYear("2020-21");
+        team2.setOverseer(adm1);
+
+        Team team3 = new Team();
+        team3.setId("Team 3");
+        team3.setAcademicYear("2023-24");
+        team3.setOverseer(adm1);
+
+        //Populating admin with sections
         adm1.addSection(sec2);
         adm1.addSection(sec3);
         adm1.addSection(sec4);
@@ -81,8 +116,23 @@ public class DBDataInitializer implements CommandLineRunner {
         adm1.addSection(sec7);
         adm1.addSection(sec8);
 
-        adminRepository.save(adm1);
+        //Populating admin with teams.
+        adm1.addTeam(team1);
+        adm2.addTeam(team2);
+        //instructor.addTeam(team1);
 
+
+        //Saving entities in H2 database using repository save.
+        //Admin
+        adminRepository.save(adm1);
+        adminRepository.save(adm2);
+
+        //Section
         sectionRepository.save(sec1);
+
+        //Team
+        teamRepository.save(team1);
+        teamRepository.save(team2);
+        teamRepository.save(team3);
     }
 }
