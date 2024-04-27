@@ -5,6 +5,7 @@ import edu.tcu.cs.peerevalutationtool.instructor.dto.InstructorDto;
 import edu.tcu.cs.peerevalutationtool.section.dto.SectionDto;
 import edu.tcu.cs.peerevalutationtool.student.Student;
 import jakarta.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 

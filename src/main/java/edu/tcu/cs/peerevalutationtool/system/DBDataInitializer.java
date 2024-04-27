@@ -3,6 +3,7 @@ package edu.tcu.cs.peerevalutationtool.system;
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
 import edu.tcu.cs.peerevalutationtool.admin.AdminRepository;
 import edu.tcu.cs.peerevalutationtool.instructor.Instructor;
+import edu.tcu.cs.peerevalutationtool.instructor.InstructorRepository;
 import edu.tcu.cs.peerevalutationtool.team.TeamRepository;
 import edu.tcu.cs.peerevalutationtool.section.Section;
 import edu.tcu.cs.peerevalutationtool.section.SectionRepository;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Component;
 public class DBDataInitializer implements CommandLineRunner {
 
     private final SectionRepository sectionRepository;
-
+    private final InstructorRepository instructorRepository;
     private final AdminRepository adminRepository;
     private final TeamRepository teamRepository;
 
 
-    public DBDataInitializer(SectionRepository sectionRepository, AdminRepository adminRepository, TeamRepository teamRepository) {
+    public DBDataInitializer(SectionRepository sectionRepository, InstructorRepository instructorRepository, AdminRepository adminRepository, TeamRepository teamRepository) {
         this.sectionRepository = sectionRepository;
+        this.instructorRepository = instructorRepository;
         this.adminRepository = adminRepository;
         this.teamRepository = teamRepository;
     }
@@ -95,16 +97,20 @@ public class DBDataInitializer implements CommandLineRunner {
         Team team1 = new Team();
         team1.setId("Team 1");
         team1.setAcademicYear("2023-24");
+        team1.setSection(sec7);
         team1.setOverseer(adm1);
 
         Team team2 = new Team();
         team2.setId("Team 2");
         team2.setAcademicYear("2020-21");
+        //team2.setInstructor(instructor);
+        team2.setSection(sec7);
         team2.setOverseer(adm1);
 
         Team team3 = new Team();
         team3.setId("Team 3");
         team3.setAcademicYear("2023-24");
+        //team3.setInstructor(instructor);
         team3.setOverseer(adm1);
 
         //Populating admin with sections
@@ -129,6 +135,9 @@ public class DBDataInitializer implements CommandLineRunner {
 
         //Section
         sectionRepository.save(sec1);
+
+        //Instructor
+        instructorRepository.save(instructor);
 
         //Team
         teamRepository.save(team1);
