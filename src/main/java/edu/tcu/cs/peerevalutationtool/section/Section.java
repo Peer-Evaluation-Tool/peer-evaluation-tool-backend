@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 public class Section implements Serializable {
@@ -24,16 +25,12 @@ public class Section implements Serializable {
 
     @ManyToOne
     private Admin overseer;
-
     @ManyToOne
     private Instructor owner;
     private String firstDate;
-
     private String lastDate;
-
     @ElementCollection
-    private ArrayList<String> activeWeeks =  new ArrayList<>();
-//    private ArrayList<LocalDate> activeWeeks =  WeekGenerator.generateWeeks(this.firstDate, this.lastDate);
+    private List<String> activeWeeks =  new ArrayList<>();
 
 
 //    private Rubric rubric
@@ -74,35 +71,13 @@ public class Section implements Serializable {
         this.lastDate = lastDate;
     }
 
-    public ArrayList<String> getActiveWeeks() {
+    public List<String> getActiveWeeks() {
         return activeWeeks;
     }
 
-    public void setActiveWeeks(ArrayList<String> activeWeeks) {
+    public void setActiveWeeks(List<String> activeWeeks) {
         this.activeWeeks = activeWeeks;
     }
-
-    //    public ArrayList<LocalDate> getActiveWeeks() {
-//        return activeWeeks;
-//    }
-
-    // Might have to refactor
-//    public void setActiveWeeks(ArrayList<LocalDate> activeWeeks) {
-//        this.activeWeeks = activeWeeks;
-//    }
-
-//    public void populateActiveWeeks() {
-//        this.activeWeeks = WeekGenerator.generateWeeks(this.firstDate, this.lastDate);
-//    }
-
-//    public void dropActiveWeeks(HashSet<Integer> indices){
-//        ArrayList<LocalDate> newWeeks = new ArrayList<>();
-//        for(int i = 0; i < this.activeWeeks.size(); i++){
-//            if (!indices.contains(i))
-//                newWeeks.add(this.activeWeeks.get(i));
-//        }
-//        this.activeWeeks = newWeeks;
-//    }
 
     public Admin getOverseer() {
         return overseer;

@@ -1,5 +1,7 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
+import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.student.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +28,12 @@ public class Task {
 
     @NotBlank(message = "Status cannot be empty")
     private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Student_id") /////////////////////?????/////////
+    private Student student;
+
+    private String week;
 
     // Constructors
     public Task() {
@@ -86,6 +94,22 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
     }
 
     // Additional logic or helper methods can be added as needed
