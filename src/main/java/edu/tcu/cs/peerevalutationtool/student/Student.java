@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.student;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,8 +28,7 @@ public class Student{
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+    @ManyToOne
     @JsonIgnore // Consider this if you face issues with JSON serialization
     private Team team;
 

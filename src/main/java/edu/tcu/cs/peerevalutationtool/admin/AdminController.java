@@ -28,7 +28,7 @@ public class AdminController {
 
     // Endpoint to assign students to a team
     @PostMapping("/assignStudentsToTeam")
-    public ResponseEntity<?> assignStudentsToTeam(@RequestParam Long teamId, @RequestBody List<Long> studentIds) {
+    public ResponseEntity<?> assignStudentsToTeam(@RequestParam String teamId, @RequestBody List<Long> studentIds) {
         try {
             adminService.assignStudentsToTeam(teamId, studentIds);
             return ResponseEntity.ok().body("Students have been successfully assigned to the team.");
@@ -52,7 +52,7 @@ public class AdminController {
 
     // Endpoint to delete a senior design team
     @DeleteMapping("/deleteSeniorDesignTeam/{teamId}")
-    public ResponseEntity<?> deleteSeniorDesignTeam(@PathVariable Long teamId) {
+    public ResponseEntity<?> deleteSeniorDesignTeam(@PathVariable String teamId) {
         try {
             adminService.deleteSeniorDesignTeam(teamId);
             return ResponseEntity.ok("Senior design team deleted successfully.");

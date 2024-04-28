@@ -2,6 +2,7 @@ package edu.tcu.cs.peerevalutationtool.section;
 
 import edu.tcu.cs.peerevalutationtool.admin.Admin;
 import edu.tcu.cs.peerevalutationtool.instructor.Instructor;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -25,13 +26,17 @@ public class Section implements Serializable {
 
     @ManyToOne
     private Admin overseer;
+
     @ManyToOne
     private Instructor owner;
     private String firstDate;
+
     private String lastDate;
+
     @ElementCollection
     private List<String> activeWeeks =  new ArrayList<>();
-
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "section")
+    private List<Team> teams  =  new ArrayList<>();
 
 //    private Rubric rubric
 
@@ -77,6 +82,14 @@ public class Section implements Serializable {
 
     public void setActiveWeeks(List<String> activeWeeks) {
         this.activeWeeks = activeWeeks;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     public Admin getOverseer() {
