@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class TaskService {
         return this.taskRepository.findAllByWeek(taskWeek);
     }
 
-    public List<Task> findAllByWeekAndStudentTeamId(String taskWeek, long taskTeamId){
+    public List<Task> findAllByWeekAndStudentTeamId(String taskWeek, String taskTeamId){
         return this.taskRepository.findAllByWeekAndStudentTeamId(taskWeek, taskTeamId);
     }
 }

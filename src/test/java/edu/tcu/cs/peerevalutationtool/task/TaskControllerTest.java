@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.student.Student;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
 import org.hamcrest.Matchers;
@@ -38,8 +38,7 @@ public class TaskControllerTest {
     @BeforeEach
     void setUp() {
         testTeam = new Team();
-        testTeam.setName("testTeam");
-        testTeam.setId(1L);
+        testTeam.setId("testTeam");
 
         testStudent = new Student();
         testStudent.setId(1L);
@@ -95,7 +94,7 @@ public class TaskControllerTest {
         given(this.taskService.findAllByWeekAndStudentTeamId("02-12-2024", this.testStudent.getTeam().getId())).willReturn(this.tasks);
 
         // When and then
-        this.mockMvc.perform(get("/tasks/AllByWeekAndStudentTeam/02-12-2024+1").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/tasks/AllByWeekAndStudentTeam/02-12-2024+testTeam").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find All by Week and Student Team Id Success"))
