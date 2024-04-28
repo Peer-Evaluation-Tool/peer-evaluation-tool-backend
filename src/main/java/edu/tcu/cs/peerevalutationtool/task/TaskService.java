@@ -1,10 +1,13 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
+import edu.tcu.cs.peerevalutationtool.domain.Team;
 import edu.tcu.cs.peerevalutationtool.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -49,5 +52,15 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    // Additional business logic methods as needed...
+    public List<Task> findAllByStudentId(Long studentId){
+        return this.taskRepository.findAllByStudentId(studentId);
+    }
+
+    public List<Task> findAllByWeek(String taskWeek) {
+        return this.taskRepository.findAllByWeek(taskWeek);
+    }
+
+    public List<Task> findAllByWeekAndStudentTeamId(String taskWeek, long taskTeamId){
+        return this.taskRepository.findAllByWeekAndStudentTeamId(taskWeek, taskTeamId);
+    }
 }
