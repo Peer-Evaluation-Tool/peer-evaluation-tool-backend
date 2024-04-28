@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task.dto;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.student.dto.StudentDto;
 
 public record TaskDto(Long id,

@@ -69,4 +69,8 @@ public class Team implements Serializable {
     public void setAcademicYear(String academicYear) {
         this.academicYear = academicYear;
     }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
 }

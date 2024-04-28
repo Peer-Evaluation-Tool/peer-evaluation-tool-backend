@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.system.Result;
 import edu.tcu.cs.peerevalutationtool.system.StatusCode;
 import edu.tcu.cs.peerevalutationtool.task.TaskService;
@@ -59,7 +59,7 @@ public class TaskController {
     }
 
     @GetMapping("/AllByWeekAndStudentTeam/{taskWeek}+{taskTeamId}")
-    public Result findAllByWeekAndStudentTeamId(@PathVariable String taskWeek, @PathVariable long taskTeamId){
+    public Result findAllByWeekAndStudentTeamId(@PathVariable String taskWeek, @PathVariable String taskTeamId){
         List<Task> foundTasks = this.taskService.findAllByWeekAndStudentTeamId(taskWeek, taskTeamId);
         List<TaskDto> taskDtos = foundTasks.stream()
                 .map(this.taskToTaskDtoConverter::convert)

@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.repository.TaskRepository;
 import edu.tcu.cs.peerevalutationtool.student.Student;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,8 +35,7 @@ public class TaskServiceTest {
     @BeforeEach
     void setUp() {
         testTeam = new Team();
-        testTeam.setName("testTeam");
-        testTeam.setId(1L);
+        testTeam.setId("testTeam");
 
         testStudent = new Student();
         testStudent.setId(1L);

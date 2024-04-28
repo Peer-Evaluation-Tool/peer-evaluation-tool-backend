@@ -1,6 +1,6 @@
 package edu.tcu.cs.peerevalutationtool.task;
 
-import edu.tcu.cs.peerevalutationtool.domain.Team;
+import edu.tcu.cs.peerevalutationtool.team.Team;
 import edu.tcu.cs.peerevalutationtool.student.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
