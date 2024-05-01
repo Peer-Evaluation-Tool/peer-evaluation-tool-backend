@@ -110,7 +110,7 @@ public class DBDataInitializer implements CommandLineRunner {
         Team team3 = new Team();
         team3.setId("Team 3");
         team3.setAcademicYear("2023-24");
-        //team3.setInstructor(instructor);
+        team3.setInstructor(instructor);
         team3.setOverseer(adm1);
 
         //Populating admin with sections
