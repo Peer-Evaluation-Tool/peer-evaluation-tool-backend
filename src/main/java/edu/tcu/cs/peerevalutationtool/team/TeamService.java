@@ -18,7 +18,6 @@ public class TeamService {
     //Injecting Repository into Service using Constructor
     private final TeamRepository teamRepository;
     private final SectionRepository sectionRepository;
-    //private final InstructorRepository instructorRepository;
 
     public TeamService(TeamRepository teamRepository, SectionRepository sectionRepository) {
         this.teamRepository = teamRepository;
@@ -63,7 +62,6 @@ public class TeamService {
                 .map(oldTeam -> {
                     oldTeam.setAcademicYear(update.getAcademicYear());
                     oldTeam.setSection(update.getSection());
-                    oldTeam.setInstructor(update.getInstructor());
                     return this.teamRepository.save(oldTeam);
                 })
                 .orElseThrow(() -> new TeamNotFoundException(teamId));
