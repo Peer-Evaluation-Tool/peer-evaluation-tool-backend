@@ -104,7 +104,7 @@ public class DBDataInitializer implements CommandLineRunner {
         team2.setId("Team 2");
         team2.setAcademicYear("2020-21");
         //team2.setInstructor(instructor);
-        team2.setSection(sec7);
+        team2.setSection(sec4);
         team2.setOverseer(adm1);
 
         Team team3 = new Team();
