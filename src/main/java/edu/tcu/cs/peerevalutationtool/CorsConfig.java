@@ -12,7 +12,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://peer-evaluation-tool-frontend-kf9s5931w-peer-evaluation-tool.vercel.app")
+                        .allowedOrigins("https://peer-evaluation-tool-frontend*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }
